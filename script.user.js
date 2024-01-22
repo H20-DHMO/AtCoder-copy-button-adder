@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AtCoder copy button adder
 // @namespace    https://github.com/H20-DHMO
-// @version      1.0
+// @version      1.1
 // @description  AtCoderの問題文中の文字列にの横にコピーボタンを置きます。
 // @author       H20_dhmo
 // @license      MIT
@@ -29,23 +29,13 @@
         window.getSelection().removeAllRanges();
     }
 
-    // UUIDを生成する関数
-    function generateUUID() {
-        let dt = new Date().getTime();
-        const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            const r = (dt + Math.random()*16)%16 | 0;
-            dt = Math.floor(dt/16);
-            return (c === 'x' ? r : (r&0x3|0x8)).toString(16);
-        });
-        return uuid;
-    }
 
     function addCopyButton(element) {
         // コピー用のボタン（span要素）を作成
-        const uuid = generateUUID();
+        const uuid = self.crypto.randomUUID();
         element.setAttribute('id', uuid);
 
-        const copyBtn = $(`<span class="btn btn-default btn-sm btn-copy ml-1" tabindex="0" data-toggle="tooltip" data-trigger="manual" title="Copied!" data-target="${uuid}">Copy</span>`);
+        const copyBtn = $(`<span class="btn btn-default btn-xs btn-copy ml-1" tabindex="0" data-toggle="tooltip" data-trigger="manual" title="Copied!" data-target="${uuid}">Copy</span>`);
         $(element).after(copyBtn);
         copyBtn.click(copyButton);
     }
